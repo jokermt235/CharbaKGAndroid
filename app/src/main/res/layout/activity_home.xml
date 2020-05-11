@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.HomeActivity">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/homeToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:title="@string/home"
+            app:titleTextColor="@android:color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dip"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dip"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/homeCowBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="128dip"
+                    android:layout_marginEnd="2dip"
+                    android:layout_weight="1"
+                    android:background="@mipmap/ic_cow" />
+
+                <ImageButton
+                    android:id="@+id/homeSheepBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="128dip"
+                    android:layout_marginEnd="2dip"
+                    android:layout_weight="1"
+                    android:background="@mipmap/ic_sheep" />
+
+
+                <ImageButton
+                    android:id="@+id/homeHorseBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="128dip"
+                    android:layout_weight="1"
+                    android:background="@mipmap/ic_horse"
+                    android:backgroundTintMode="src_over" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dip"
+                android:layout_marginTop="2dip"
+                android:layout_marginEnd="2dip"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/homeCowBirthBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="96dip"
+                    android:layout_marginEnd="2dip"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:text="@string/birth"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/homeSheepBirthBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="96dip"
+                    android:layout_marginEnd="2dip"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:text="@string/birth"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/homeHorseBirthBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="96dip"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:text="@string/birth"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dip"
+                android:layout_marginTop="2dip"
+                android:layout_marginEnd="2dip"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/homeCowMealBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="96dip"
+                    android:layout_marginEnd="2dip"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:text="@string/meal"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/homeSheepMealBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="96dip"
+                    android:layout_marginEnd="2dip"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:text="@string/meal"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/homeHorseMealBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="96dip"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:text="@string/meal"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dip"
+                android:layout_marginTop="2dip"
+                android:layout_marginEnd="2dip"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/homeCowYieldBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="96dip"
+                    android:layout_marginEnd="2dip"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:text="@string/yield"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/homeSheepYieldBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="96dip"
+                    android:layout_marginEnd="2dip"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:text="@string/yield"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/homeHorseYieldBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="96dip"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:text="@string/yield"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="10dip"
+                android:paddingEnd="10dip">
+
+                <ImageView
+                    android:id="@+id/homeSystem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/ic_launcher_foreground"
+                    android:backgroundTintMode="src_over" />
+
+                <TextView
+                    android:id="@+id/homeMessage"
+                    android:layout_width="256dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dip"
+                    android:layout_marginTop="10dip"
+                    android:layout_marginEnd="10dip"
+                    android:layout_marginBottom="10dip"
+                    android:background="@drawable/message_bubble"
+                    android:backgroundTintMode="src_over"
+                    android:paddingStart="36dip"
+                    android:paddingTop="5dip"
+                    android:paddingEnd="5dip"
+                    android:paddingBottom="5dip"
+                    android:text="@string/homeMessage"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/common_google_signin_btn_text_light_pressed"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

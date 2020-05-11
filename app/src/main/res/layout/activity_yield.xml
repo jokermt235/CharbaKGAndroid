@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.YieldActivity">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/yieldToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:hapticFeedbackEnabled="false"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:title="@string/yield"
+            app:titleTextColor="@android:color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/yieldDateFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dip"
+                android:layout_weight="1"
+                android:background="@android:drawable/edit_text"
+                android:backgroundTint="@color/common_google_signin_btn_text_dark_disabled"
+                android:ems="10"
+                android:enabled="false"
+                android:inputType="date"
+                android:text="01.01.2020" />
+
+            <ImageButton
+                android:id="@+id/yieldDateFromBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-4dip"
+                android:background="@android:drawable/edit_text"
+                android:backgroundTint="@color/common_google_signin_btn_text_dark_disabled"
+                android:src="@drawable/ic_date_range_black_24dp" />
+
+            <EditText
+                android:id="@+id/yieldDateTo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dip"
+                android:layout_weight="1"
+                android:background="@android:drawable/edit_text"
+                android:backgroundTint="@color/common_google_signin_btn_text_dark_disabled"
+                android:ems="10"
+                android:enabled="false"
+                android:inputType="date"
+                android:text="01.01.2020" />
+
+            <ImageButton
+                android:id="@+id/yieldDateToBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-4dip"
+                android:layout_marginEnd="10dip"
+                android:background="@android:drawable/edit_text"
+                android:backgroundTint="@color/common_google_signin_btn_text_dark_disabled"
+                android:src="@drawable/ic_date_range_black_24dp" />
+
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/yieldView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+        </ListView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dip"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/yieldSumLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sumLabel"
+                    android:textColor="@color/colorLabelDark"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/yieldSum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dip"
+                    android:layout_marginEnd="10dip"
+                    android:text="@string/sum"
+                    android:textColor="@color/colorLabelDark"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/yieldRefreshBtn"
+                    android:layout_width="48dip"
+                    android:layout_height="48dip"
+                    android:background="@drawable/ic_refresh_black_24dp">
+
+                </ImageButton>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right">
+
+                <ImageButton
+                    android:id="@+id/addYield"
+                    android:layout_width="48dip"
+                    android:layout_height="48dip"
+                    android:background="@drawable/ic_add_circle_black_24dp">
+
+                </ImageButton>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+    <ProgressBar
+        android:id="@+id/yieldProgressBar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:indeterminateTint="@color/colorPrimary"
+        android:visibility="gone">
+    </ProgressBar>
+</androidx.constraintlayout.widget.ConstraintLayout>

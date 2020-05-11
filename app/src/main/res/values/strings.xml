@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">CharbaKG</string>
+    <string name="login_describe_text">Для получения доступа ввидите номер телефона на который будет выслано SMS с кодом </string>
+    <string name="login_phone_label">Телефон</string>
+    <string name="login_password_label">Пароль</string>
+    <string name="login_button">Войти</string>
+    <string name="home">Домашняя страница</string>
+    <string name="birth">Приплод</string>
+    <string name="meal">Корм</string>
+    <string name="yield">Удой</string>
+    <string name="homeMessage">Привет я программа  такая такая я могу то то если возникнут вопросы звони туда то туда то!</string>
+    <string name="livestock">Поголовье КРС</string>
+    <string name="mrs">Поголовье МРС</string>
+    <string name="horse">Непарнокапытные</string>
+    <string name="offspringKRS">Приплод КРС</string>
+    <string name="sumLabel">Всего</string>
+    <string name="sum">0</string>
+    <string name="pageLabel">Страница</string>
+    <string name="fromLabel">Из</string>
+    <string name="page">1</string>
+    <string name="pageCount">1</string>
+    <string name="feedTitle">Корм</string>
+    <string name="feedUnit">Тюк</string>
+    <string name="addForm">Новая запись</string>
+    <string name="numberLabel">Номер</string>
+    <string name="numberParentLabel">Номер родителя</string>
+    <string name="male">Муж.</string>
+    <string name="female">Жен.</string>
+    <string name="sex">Пол</string>
+    <string name="save">Сохранить</string>
+    <string name="cancel">Отмена</string>
+    <string name="ok">OK</string>
+    <string name="ageLabel">Возраст</string>
+    <string name="amount_of_milk_litres">Количество молока в (литрах)</string>
+    <string name="amount_of_feed">Количество корма</string>
+    <string name="month">Мес.</string>
+    <string name="year">Лет</string>
+    <string name="yieldUnit">Литр</string>
+    <string-array name="livestock_view_headers">
+        <item>Возраст</item>
+        <item>Примерный вес</item>
+        <item>Приплод</item>
+        <item>Убой</item>
+        <item>Ожидаемый приплод</item>
+        <item>Корм</item>
+    </string-array>
+    <string name="error_empty_phone">
+        Поле телефон не может быть пустым
+    </string>
+    <string name="send_code">
+        Отправить
+    </string>
+    <string name="code_confirm">Код подтверждения</string>
+    <string name="codeConfirmDescription">
+        Ввидите код который был отправлен вам на номер телефона указанном вами
+    </string>
+    <string name="mrs_spices_label">Порода</string>
+    <string name="mrs_count_label">Кол-во</string>
+    <string name="date_examle">01.01.2020</string>
+    <string name="make_report">Сделать отчет</string>
+    <string name="feed_type">Тип корма</string>
+    <string name="horse_name">Лошадь</string>
+    <string name="horse_donakey">Осел</string>
+    <string name="horse_type">Тип парнокапытного</string>
+</resources>

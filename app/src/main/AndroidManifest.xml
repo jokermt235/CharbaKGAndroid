@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.exesoft.charbakg">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".View.HorseOffspringActivity"></activity>
+        <activity android:name=".View.KrsOffspringFormActivity" />
+        <activity android:name=".View.KrsOffspringActivity" />
+        <activity android:name=".View.OffspringFormActivity" />
+        <activity android:name=".View.HorseFormActivity" />
+        <activity android:name=".View.HorseActivity" />
+        <activity android:name=".View.MRSFormActivity" />
+        <activity android:name=".View.MRSActivity" />
+        <activity android:name=".View.KRSChildForm" />
+        <activity android:name=".View.CodeConfirmActivity" />
+        <activity android:name=".View.LivestockView" />
+        <activity android:name=".View.LsformActivity" />
+        <activity android:name=".View.YieldActivity" />
+        <activity android:name=".View.FeedActivity" />
+        <activity android:name=".View.OffspringActivity" />
+        <activity android:name=".View.LivestockActivity" />
+        <activity android:name=".View.HomeActivity" />
+        <activity android:name=".View.LoginActivity" />
+        <activity android:name=".View.SplashActivity" />
+        <activity android:name=".View.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
