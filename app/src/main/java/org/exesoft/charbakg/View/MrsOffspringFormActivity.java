@@ -3,6 +3,7 @@ package org.exesoft.charbakg.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -55,6 +56,14 @@ public class MrsOffspringFormActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new MrsOffspringSaveEvent(this));
         species = findViewById(R.id.mrsOffspringFormSpecies);
         count = findViewById(R.id.mrsOffspringFormCount);
+        AppToolbar.initSimpleToolbar(this, R.id.mrsOffspringFormToolbar);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+        finish();
     }
 
     public Spinner getSpecies() {
