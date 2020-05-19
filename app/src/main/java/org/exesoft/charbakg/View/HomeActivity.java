@@ -81,7 +81,7 @@ public class HomeActivity extends AppCompatActivity {
         buttonOffspringKRS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), OffspringActivity.class);
+                Intent intent = new Intent(v.getContext(), MrsOffspringActivity.class);
                 intent.putExtra("owner","mrs");
                 v.getContext().startActivity(intent);
                 finish();

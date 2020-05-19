@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.HorseOffspringActivity"></activity>
+        <activity android:name=".View.MrsOffspringFormActivity"></activity>
+        <activity android:name=".View.MrsOffspringActivity" />
+        <activity android:name=".View.HorseOffspringActivity" />
         <activity android:name=".View.KrsOffspringFormActivity" />
         <activity android:name=".View.KrsOffspringActivity" />
         <activity android:name=".View.OffspringFormActivity" />
