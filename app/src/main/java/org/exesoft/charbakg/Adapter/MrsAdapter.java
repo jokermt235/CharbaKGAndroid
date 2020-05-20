@@ -49,7 +49,7 @@ public class MrsAdapter extends BaseAdapter {
         TextView  mrsAdded = convertView.findViewById(R.id.mrsAdded);
         //serial.setText(items.get(position).get());
         spiciesCount.setText(items.get(position).get("amount").toString());
-        spicies.setText(items.get(position).get("spicies").toString());
+        spicies.setText(items.get(position).get("species").toString());
         mrsAdded.setText( new SimpleDateFormat("dd.MM.yyyy").format(items.get(position).get("added")));
         image.setImageBitmap(icon);
         return convertView;

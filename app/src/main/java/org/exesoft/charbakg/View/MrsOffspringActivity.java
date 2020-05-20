@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -11,13 +12,19 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.exesoft.charbakg.Adapter.LivestockAdapter;
+import org.exesoft.charbakg.Adapter.MrsAdapter;
 import org.exesoft.charbakg.Callback.OnDatePickerResult;
+import org.exesoft.charbakg.Callback.OnSimpleLoaderResult;
 import org.exesoft.charbakg.Component.DateInput;
+import org.exesoft.charbakg.Controller.SimpleLoader;
 import org.exesoft.charbakg.Modal.DatePicker;
 import org.exesoft.charbakg.R;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
 public class MrsOffspringActivity extends AppCompatActivity {
     private static String TAG = "MrsOffspringActivity";
@@ -91,5 +98,48 @@ public class MrsOffspringActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.mrsOffspringProgressBar);
         //Init sumText TextView
         sumText = findViewById(R.id.mrsOffspringSum);
+        // Init refreshBtn ImageButton
+        refreshBtn = findViewById(R.id.mrsOffspringRefreshBtn);
+        refreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                localLoader();
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        localLoader();
+    }
+
+    public void localLoader(){
+        progressBar.setVisibility(View.VISIBLE);
+        offspringListView.setAdapter(null);
+        SimpleLoader.filter("mrs_offspring",dateFrom.getTime(),dateTo.getTime(), new OnSimpleLoaderResult() {
+            @Override
+            public void onResult(ArrayList<Map<String, Object>> items){
+                Log.d(TAG, "Result of elements is been recieved");
+                if(items.size() == 0){
+                    progressBar.setVisibility(View.GONE);
+                }else{
+                    if(items.size() > 0){
+                        progressBar.setVisibility(View.GONE);
+                        sumText.setText(Integer.toString(items.size()));
+                        MrsAdapter livestockAdapter = new MrsAdapter(activity);
+                        livestockAdapter.setItems(items);
+                        offspringListView.setAdapter(livestockAdapter);
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+        finish();
     }
 }
