@@ -73,7 +73,7 @@ class OnSaveHorse implements View.OnClickListener{
         Map<String,Object> horse = new HashMap<>();
         int typeId = activity.getHorseTypeGroup().getCheckedRadioButtonId();
         RadioButton type = activity.findViewById(typeId);
-        horse.put("name",type.getText());
+        horse.put("name",type.getText().toString());
         int sexId = activity.getSexGroup().getCheckedRadioButtonId();
         RadioButton sex = activity.findViewById(sexId);
         horse.put("sex",sex.getText().toString().isEmpty() ? "Жен.": sex.getText().toString());

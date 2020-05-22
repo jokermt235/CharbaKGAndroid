@@ -18,6 +18,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.exesoft.charbakg.Callback.OnSavedResult;
+import org.exesoft.charbakg.Callback.OnSimpleLoaderResult;
 import org.exesoft.charbakg.Controller.SimpleLoader;
 import org.exesoft.charbakg.R;
 import org.exesoft.charbakg.View.FeedActivity;
@@ -106,6 +107,13 @@ public class FeedReport {
                             activity.loadLocal();
                             dialog.cancel();
                         }
+                    }
+                });
+                // Update data
+                SimpleLoader.filter("feed_report","name",feedType.get("name").toString(), new OnSimpleLoaderResult(){
+                    @Override
+                    public void onResult(ArrayList<Map<String, Object>> items) {
+                        super.onResult(items);
                     }
                 });
             }

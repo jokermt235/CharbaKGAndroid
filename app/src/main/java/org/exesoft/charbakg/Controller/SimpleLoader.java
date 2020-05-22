@@ -70,6 +70,31 @@ public class SimpleLoader {
             });
         }
     }
+
+    public static void filter(final  String collection,String key, Object value , final OnSimpleLoaderResult result){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null) {
+            db.collection(collection).whereEqualTo(key, value).whereEqualTo("phone",user.getPhoneNumber()).whereEqualTo("phone",user.getPhoneNumber()).orderBy("added", Query.Direction.DESCENDING)
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        Log.d(TAG + "_" + collection, "Loaded success");
+                        ArrayList<Map<String, Object>> arrayList = new ArrayList<>();
+                        QuerySnapshot querySnapshot = task.getResult();
+                        for (QueryDocumentSnapshot document : querySnapshot) {
+                            arrayList.add(document.getData());
+                        }
+                        result.onResult(arrayList);
+                    } else {
+                        Log.w(TAG, "Error getting documents.", task.getException());
+                    }
+                }
+            });
+        }
+    }
+
     public static void filter(final  Map<String,Object> options, long dateFrom, long dateTo, final OnSimpleLoaderResult result){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

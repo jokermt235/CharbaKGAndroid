@@ -25,6 +25,7 @@ public class HorseOffspringFormActivity extends AppCompatActivity {
     private EditText ageMonth;
     private RadioGroup sex;
     private Button saveBtn;
+    private RadioGroup horseTypeGroup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,12 +43,17 @@ public class HorseOffspringFormActivity extends AppCompatActivity {
                 save();
             }
         });
+        // Init  horseTypeGroup RadioGroup
+        horseTypeGroup = findViewById(R.id.horseOffspringFormNameRG);
         //Init toolbar
         AppToolbar.initSimpleToolbar(this,R.id.horseOffspringFormToolbar);
     }
 
     private void save(){
         Map<String, Object> offspring = new HashMap<>();
+        int typeId = horseTypeGroup.getCheckedRadioButtonId();
+        RadioButton type = findViewById(typeId);
+        offspring.put("name",type.getText().toString());
         offspring.put("ageYear",Integer.parseInt(ageYear.getText().toString().isEmpty() ? "0": ageYear.getText().toString()));
         offspring.put("ageMonth",Integer.parseInt(ageMonth.getText().toString().isEmpty() ? "0": ageMonth.getText().toString()));
         int sexView = sex.getCheckedRadioButtonId();

@@ -118,7 +118,7 @@ class MrsSaveEvent implements View.OnClickListener{
         Map<String, Object> mrs = new HashMap<>();
         Map<String,Object> map = (Map<String,Object>)activity.getMrsSpicies().getSelectedItem();
         if(map != null)
-            mrs.put("spicies",map.get("name").toString());
+            mrs.put("species",map.get("name").toString());
         mrs.put("ageYear",Integer.parseInt(activity.getMrsAgeYear().getText().toString().isEmpty() ? "0": activity.getMrsAgeYear().getText().toString()));
         mrs.put("ageMonth",Integer.parseInt(activity.getMrsAgeMonth().getText().toString().isEmpty() ? "0": activity.getMrsAgeMonth().getText().toString()));
         int sexView = activity.getMrsSex().getCheckedRadioButtonId();

@@ -11,12 +11,17 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.exesoft.charbakg.Adapter.HorseAdapter;
 import org.exesoft.charbakg.Callback.OnDatePickerResult;
+import org.exesoft.charbakg.Callback.OnSimpleLoaderResult;
 import org.exesoft.charbakg.Component.DateInput;
+import org.exesoft.charbakg.Controller.SimpleLoader;
 import org.exesoft.charbakg.Modal.DatePicker;
 import org.exesoft.charbakg.R;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
 public class HorseOffspringActivity extends AppCompatActivity {
 
@@ -89,7 +94,7 @@ public class HorseOffspringActivity extends AppCompatActivity {
         refeshBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                loadLocal();
             }
         });
         //Init addHorseOffspringBtn ImageButton
@@ -108,5 +113,27 @@ public class HorseOffspringActivity extends AppCompatActivity {
         super.onBackPressed();
         startActivity(new Intent(getApplicationContext(), HomeActivity.class));
         finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadLocal();
+    }
+
+    public void loadLocal(){
+        progressBar.setVisibility(View.VISIBLE);
+        sum.setText("0");
+        SimpleLoader.filter("horse_offspring",dateFrom.getTime(), dateTo.getTime(),new OnSimpleLoaderResult(){
+            @Override
+            public void onResult(ArrayList<Map<String, Object>> items) {
+                super.onResult(items);
+                HorseAdapter horseAdapter = new HorseAdapter(activity);
+                horseAdapter.setItems(items);
+                horseOffspringList.setAdapter(horseAdapter);
+                progressBar.setVisibility(View.GONE);
+                sum.setText(Integer.toString(items.size()));
+            }
+        });
     }
 }
