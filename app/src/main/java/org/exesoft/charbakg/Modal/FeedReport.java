@@ -17,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.exesoft.charbakg.Callback.Feed.OnUpdateDocument;
 import org.exesoft.charbakg.Callback.OnSavedResult;
 import org.exesoft.charbakg.Callback.OnSimpleLoaderResult;
 import org.exesoft.charbakg.Controller.SimpleLoader;
@@ -92,28 +93,47 @@ public class FeedReport {
         dialogContent.findViewById(R.id.feedFormSaveBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map<String, Object> feed = new HashMap<>();
-                feed.put("added",new Date().getTime());
-                feed.put("amount",Integer.parseInt(amountInput.getText().toString().isEmpty() ? "0":amountInput.getText().toString()));
-                Map<String,Object> feedType = (Map<String,Object>)feedTypeSelect.getSelectedItem();
-                feed.put("name", feedType.get("name"));
-                feed.put("unit",feedType.get("unit"));
-                SimpleLoader.save("feed_report",feed, new OnSavedResult(){
-                    @Override
-                    public void onSave(boolean saved) {
-                        super.onSave(saved);
-                        if(saved){
-                            activity.setDateTo(new Date());
-                            activity.loadLocal();
-                            dialog.cancel();
-                        }
-                    }
-                });
+                final Map<String,Object> feedType = (Map<String,Object>)feedTypeSelect.getSelectedItem();
+
                 // Update data
                 SimpleLoader.filter("feed_report","name",feedType.get("name").toString(), new OnSimpleLoaderResult(){
                     @Override
                     public void onResult(ArrayList<Map<String, Object>> items) {
                         super.onResult(items);
+                        if(items.size() != 0) {
+                            for (Map<String, Object> item : items) {
+                                item.put("added",new Date().getTime());
+                                item.put("amount",Integer.parseInt(amountInput.getText().toString().isEmpty() ? "0":amountInput.getText().toString()));
+                                SimpleLoader.update("feed_report", item.get("_ref").toString(), item, new OnUpdateDocument() {
+                                    @Override
+                                    public void updated(boolean status) {
+                                        super.updated(status);
+                                        if(status){
+                                            activity.setDateTo(new Date());
+                                            activity.loadLocal();
+                                            dialog.cancel();
+                                        }
+                                    }
+                                });
+                            }
+                        }else{
+                            Map<String, Object> feed = new HashMap<>();
+                            feed.put("added",new Date().getTime());
+                            feed.put("amount",Integer.parseInt(amountInput.getText().toString().isEmpty() ? "0":amountInput.getText().toString()));
+                            feed.put("name", feedType.get("name"));
+                            feed.put("unit",feedType.get("unit"));
+                            SimpleLoader.save("feed_report",feed, new OnSavedResult(){
+                                @Override
+                                public void onSave(boolean saved) {
+                                    super.onSave(saved);
+                                    if(saved){
+                                        activity.setDateTo(new Date());
+                                        activity.loadLocal();
+                                        dialog.cancel();
+                                    }
+                                }
+                            });
+                        }
                     }
                 });
             }

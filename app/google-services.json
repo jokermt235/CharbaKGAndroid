@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "660606085505-sj4usfh8qumaud1ho82lc1eu2higcrpm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.exesoft.charbakg",
+            "certificate_hash": "91f61e54d2c9dc2cdd3165eb67cd3ae4059d7c68"
+          }
+        },
+        {
           "client_id": "660606085505-1tq6cgt6u6ql8iqre80tnd9tg0an3dav.apps.googleusercontent.com",
           "client_type": 3
         }

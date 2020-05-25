@@ -14,6 +14,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.exesoft.charbakg.Callback.Feed.OnUpdateDocument;
 import org.exesoft.charbakg.Callback.OnSavedResult;
 import org.exesoft.charbakg.Callback.OnSimpleLoaderResult;
 
@@ -23,6 +24,29 @@ import java.util.UUID;
 
 public class SimpleLoader {
     public static String TAG = "SimpleLoader";
+    public static void update(final  String collection,String documentStrRef, Map<String, Object> data, final OnUpdateDocument result){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser user  = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null) {
+            data.put("phone",user.getPhoneNumber());
+            data.put("uid", UUID.randomUUID().toString());
+            data.remove("_ref");
+            db.collection(collection).document(documentStrRef)
+                    .update(data)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            result.updated(true);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error adding document", e);
+                        }
+                    });
+        }
+    }
     public static void save(final  String collection, Map<String, Object> data, final OnSavedResult result){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user  = FirebaseAuth.getInstance().getCurrentUser();
@@ -84,7 +108,9 @@ public class SimpleLoader {
                         ArrayList<Map<String, Object>> arrayList = new ArrayList<>();
                         QuerySnapshot querySnapshot = task.getResult();
                         for (QueryDocumentSnapshot document : querySnapshot) {
-                            arrayList.add(document.getData());
+                            Map<String, Object> item = document.getData();
+                            item.put("_ref",document.getId());
+                            arrayList.add(item);
                         }
                         result.onResult(arrayList);
                     } else {

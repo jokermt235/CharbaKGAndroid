@@ -17,6 +17,7 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
 import org.exesoft.charbakg.Callback.OnVerificationCallback;
+import org.exesoft.charbakg.R;
 import org.exesoft.charbakg.View.HomeActivity;
 
 import java.util.concurrent.TimeUnit;
@@ -52,13 +53,12 @@ public class Auth {
                 if (task.isSuccessful()) {
                     // Sign in success, update UI with the signed-in user's information
                     FirebaseUser user = task.getResult().getUser();
-                    Toast.makeText(activity.getApplicationContext(), user.getUid(), Toast.LENGTH_LONG).show();
                     activity.startActivity(new Intent(activity, HomeActivity.class));
                     activity.finish();
                     // ...
                 } else {
                     // Sign in failed, display a message and update the UI
-
+                    Toast.makeText(activity.getApplicationContext(), activity.getResources().getString(R.string.login_error_message),  Toast.LENGTH_LONG).show();
                     if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                         // The verification code entered was invalid
                     }

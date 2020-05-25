@@ -48,7 +48,7 @@
             android:layout_marginEnd="20dip"
             android:background="@android:drawable/edit_text"
             android:ems="10"
-            android:hint="0555 55 55 55"
+            android:hint="+996 551 52 53 54"
             android:inputType="number|phone" />
 
         <Button
@@ -70,6 +70,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
+            android:indeterminateTint="@color/colorPrimary"
+            android:visibility="gone"/>
+
+        <ProgressBar
+            android:id="@+id/loginProgressBar"
+            style="@style/AppTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:indeterminateTint="@color/colorPrimary"
             android:visibility="gone"/>
 

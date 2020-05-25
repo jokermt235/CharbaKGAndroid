@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import org.exesoft.charbakg.Component.Auth;
 import org.exesoft.charbakg.R;
@@ -19,6 +20,8 @@ public class LoginActivity extends AppCompatActivity {
 
     String  errorMessage;
 
+    private ProgressBar loginProgress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,18 +31,26 @@ public class LoginActivity extends AppCompatActivity {
 
         phoneNumber = findViewById(R.id.loginPhone);
 
+        loginProgress = findViewById(R.id.loginProgressBar);
         errorMessage = getString(R.string.error_empty_phone);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!TextUtils.isEmpty(phoneNumber.getText())) {
-                    Auth.signIn(LoginActivity.this, phoneNumber.getText().toString());
+                    String phone = phoneNumber.getText().toString();
+                    phone.replace("\\s+","");
+                    loginProgress.setVisibility(View.VISIBLE);
+                    Auth.signIn(LoginActivity.this, phone );
                 }else{
                     phoneNumber.setError(errorMessage);
                 }
 
             }
         });
+    }
+
+    public ProgressBar getLoginProgress(){
+        return  loginProgress;
     }
 }

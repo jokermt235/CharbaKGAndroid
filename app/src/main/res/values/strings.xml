@@ -62,4 +62,5 @@
     <string name="horse_name">Лошадь</string>
     <string name="horse_donakey">Осел</string>
     <string name="horse_type">Тип парнокапытного</string>
+    <string name="login_error_message">Неправильный номер или оператор связи!</string>
 </resources>
