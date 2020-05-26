@@ -63,4 +63,9 @@
     <string name="horse_donakey">Осел</string>
     <string name="horse_type">Тип парнокапытного</string>
     <string name="login_error_message">Неправильный номер или оператор связи!</string>
+    <string name="home_menu_setting_title">Настройки</string>
+    <string name="home_menu_logout">Выйти</string>
+    <string name="home_form_label_name">Имя</string>
+    <string name="home_form_label_farm">Название фермы</string>
+    <string name="home_form_default_text">Ферма 1</string>
 </resources>

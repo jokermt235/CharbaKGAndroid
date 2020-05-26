@@ -1,28 +1,56 @@
 package org.exesoft.charbakg.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import org.exesoft.charbakg.Modal.ProfileSettings;
 import org.exesoft.charbakg.Model.Offspring;
 import org.exesoft.charbakg.R;
 
 public class HomeActivity extends AppCompatActivity {
 
+    private static  String TAG = "HomeActivity";
+    private Toolbar toolbar;
+    private ProfileSettings settingsDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        toolbar = findViewById(R.id.homeToolbar);
         // Init KRS ACTIONS
         initKRSActions();
         // Init MRS ACTIONS
         initMRSActions();
         // Init Horse ACTIONS
         initHorseActions();
+        setSupportActionBar(toolbar);
+        settingsDialog = new ProfileSettings(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+        menu.getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Log.d(TAG, "Profile settings item clicked");
+                settingsDialog.show();
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void initKRSActions(){
