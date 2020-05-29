@@ -17,6 +17,7 @@ public class SplashActivity extends AppCompatActivity {
         if(!Auth.isSigned()){
             startActivity(new Intent(this, LoginActivity.class));
         }else{
+
             startActivity(new Intent(this, HomeActivity.class));
         }
         finish();
