@@ -68,4 +68,6 @@
     <string name="home_form_label_name">Имя</string>
     <string name="home_form_label_farm">Название фермы</string>
     <string name="home_form_default_text">Ферма 1</string>
+    <string name="permission_toolbar_text">Получение доступа</string>
+    <string name="permission_request">Запросить доступ</string>
 </resources>

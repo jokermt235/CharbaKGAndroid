@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.PermissionActivity">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/permissionToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:title="@string/permission_toolbar_text"
+            app:titleTextColor="@color/ic_launcher_background" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/permissionFarmLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/home_form_label_farm"
+                android:textColor="@color/colorLabelDark"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/permissonFarmSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@android:drawable/btn_dropdown" />
+
+            <TextView
+                android:id="@+id/permissonNameLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/home_form_label_name"
+                android:textColor="@color/colorLabelDark"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/permissionname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@android:drawable/edit_text"
+                android:ems="10"
+                android:hint="Усонов Усон"
+                android:inputType="textPersonName" />
+
+            <Button
+                android:id="@+id/permissionREquestBtn"
+                android:layout_width="match_parent"
+                android:layout_height="64dip"
+                android:layout_marginTop="64dp"
+                android:background="@color/colorPrimary"
+                android:text="@string/permission_request"
+                android:textColor="@color/ic_launcher_background"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ProgressBar
+                android:id="@+id/permissonProgressbar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:indeterminateTint="@color/colorPrimary"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
