@@ -70,4 +70,6 @@
     <string name="home_form_default_text">Ферма 1</string>
     <string name="permission_toolbar_text">Получение доступа</string>
     <string name="permission_request">Запросить доступ</string>
+    <string name="permission_requested_message">Запрос на доступ успешно отправлен</string>
+    <string name="permission_too_many_requested_permission">Слишком много запросов на доступ!</string>
 </resources>

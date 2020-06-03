@@ -16,10 +16,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
+import org.exesoft.charbakg.Callback.OnSimpleLoaderResult;
 import org.exesoft.charbakg.Callback.OnVerificationCallback;
+import org.exesoft.charbakg.Controller.SimpleLoader;
 import org.exesoft.charbakg.R;
 import org.exesoft.charbakg.View.HomeActivity;
+import org.exesoft.charbakg.View.PermissionActivity;
 
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class Auth {
@@ -53,8 +58,19 @@ public class Auth {
                 if (task.isSuccessful()) {
                     // Sign in success, update UI with the signed-in user's information
                     FirebaseUser user = task.getResult().getUser();
-                    activity.startActivity(new Intent(activity, HomeActivity.class));
-                    activity.finish();
+                    SimpleLoader.filter("user","status",true, new OnSimpleLoaderResult(){
+                        @Override
+                        public void onResult(ArrayList<Map<String, Object>> items) {
+                            super.onResult(items);
+                            if(!items.isEmpty()){
+                                activity.startActivity(new Intent(activity, HomeActivity.class));
+                                activity.finish();
+                            }else{
+                                activity.startActivity(new Intent(activity, PermissionActivity.class));
+                                activity.finish();
+                            }
+                        }
+                    });
                     // ...
                 } else {
                     // Sign in failed, display a message and update the UI

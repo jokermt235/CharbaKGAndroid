@@ -29,13 +29,16 @@ public class SplashActivity extends AppCompatActivity {
                     if(!items.isEmpty()){
                         if((boolean)items.get(0).get("status")){
                             startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                            finish();
+                        }else {
+                            startActivity(new Intent(getApplicationContext(), PermissionActivity.class));
+                            finish();
                         }
                     }
 
                 }
             });
         }
-        finish();
     }
 
     @Override

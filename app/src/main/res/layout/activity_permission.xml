@@ -49,7 +49,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@android:drawable/btn_dropdown" />
-
             <TextView
                 android:id="@+id/permissonNameLabel"
                 android:layout_width="match_parent"
@@ -58,7 +57,6 @@
                 android:text="@string/home_form_label_name"
                 android:textColor="@color/colorLabelDark"
                 android:textSize="18sp" />
-
             <EditText
                 android:id="@+id/permissionname"
                 android:layout_width="match_parent"
@@ -68,7 +66,6 @@
                 android:ems="10"
                 android:hint="Усонов Усон"
                 android:inputType="textPersonName" />
-
             <Button
                 android:id="@+id/permissionREquestBtn"
                 android:layout_width="match_parent"
@@ -81,14 +78,12 @@
                 android:textStyle="bold" />
 
             <ProgressBar
-                android:id="@+id/permissonProgressbar"
-                style="?android:attr/progressBarStyle"
+                android:id="@+id/permissionProgressbar"
+                style="@android:style/Widget.ProgressBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:indeterminateTint="@color/colorPrimary"
-                android:visibility="gone"/>
-
+                android:indeterminateTint="@color/colorPrimary" />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
