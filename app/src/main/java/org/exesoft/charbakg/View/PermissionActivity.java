@@ -46,7 +46,9 @@ public class PermissionActivity extends AppCompatActivity {
                         }else {
                             Map<String , Object> perm = new HashMap<>();
                             perm.put("name",nameInput.getText().toString());
-                            //perm.put("_refFarm", );
+                            Map<String,Object> farm = (Map<String,Object>)farmSelect.getSelectedItem();
+                            perm.put("farm", farm.get("name"));
+                            perm.put("farm_city", farm.get("city"));
                             perm.put("allowed",false);
                             SimpleLoader.save("permission",perm, new OnSavedResult(){
                                 @Override
@@ -64,7 +66,7 @@ public class PermissionActivity extends AppCompatActivity {
         });
         // Init Farm select spinner;
         farmSelect  = findViewById(R.id.permissonFarmSpinner);
-        progressBar = findViewById(R.id.permissonProgressbar);
+        progressBar = findViewById(R.id.permissionProgressbar);
     }
 
     private void loadLocal(){

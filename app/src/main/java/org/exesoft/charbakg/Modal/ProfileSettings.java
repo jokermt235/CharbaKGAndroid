@@ -7,8 +7,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
+
+import com.google.firebase.firestore.DocumentReference;
 
 import org.exesoft.charbakg.Callback.Feed.OnUpdateDocument;
 import org.exesoft.charbakg.Callback.OnSavedResult;
@@ -28,6 +31,7 @@ public class ProfileSettings {
     private  AlertDialog.Builder settingDialog;
     private AlertDialog dialog;
     private EditText name;
+    private TextView settingFarm;
     private View view;
     private ImageButton closeBtn;
     private Button saveBtn;
@@ -91,6 +95,7 @@ public class ProfileSettings {
             }
         });
         progressBar = view.findViewById(R.id.settingsProgressBar);
+        settingFarm = view.findViewById(R.id.settingsFarm);
         loadLocal();
     }
     private View getContent(){
@@ -108,6 +113,7 @@ public class ProfileSettings {
                 super.onResult(items);
                 if(!items.isEmpty()){
                     name.setText(items.get(0).get("name").toString());
+                    settingFarm.setText(items.get(0).get("farm").toString() + " , "+ items.get(0).get("farm_city").toString());
                 }
             }
         });

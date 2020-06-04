@@ -65,22 +65,14 @@
             android:textStyle="bold" />
 
         <ProgressBar
-            android:id="@+id/loginProgress"
-            style="@style/Widget.AppCompat.ProgressBar"
+            android:id="@+id/loginProgressBar"
+            style="@android:style/Widget.Holo.Light.ProgressBar.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
             android:indeterminateTint="@color/colorPrimary"
             android:visibility="gone"/>
 
-        <ProgressBar
-            android:id="@+id/loginProgressBar"
-            style="@style/AppTheme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:indeterminateTint="@color/colorPrimary"
-            android:visibility="gone"/>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
