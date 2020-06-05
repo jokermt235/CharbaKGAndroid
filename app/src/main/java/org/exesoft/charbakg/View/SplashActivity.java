@@ -21,6 +21,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         if(!Auth.isSigned()){
             startActivity(new Intent(this, LoginActivity.class));
+            finish();
         }else{
             SimpleLoader.filter("user",new OnSimpleLoaderResult(){
                 @Override

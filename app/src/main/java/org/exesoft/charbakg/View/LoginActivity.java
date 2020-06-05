@@ -53,4 +53,10 @@ public class LoginActivity extends AppCompatActivity {
     public ProgressBar getLoginProgress(){
         return  loginProgress;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

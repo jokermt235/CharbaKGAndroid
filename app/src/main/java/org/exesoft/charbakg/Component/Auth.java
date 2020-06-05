@@ -48,7 +48,10 @@ public class Auth {
             return true;
         }
         return false;
+    }
 
+    public  static  void logout(){
+        FirebaseAuth.getInstance().signOut();
     }
 
     public static  void signInWithPhoneCredentials(final AppCompatActivity activity, PhoneAuthCredential phoneAuthCredential){

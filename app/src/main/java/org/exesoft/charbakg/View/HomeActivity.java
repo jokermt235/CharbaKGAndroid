@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import org.exesoft.charbakg.Component.Auth;
 import org.exesoft.charbakg.Modal.ProfileSettings;
 import org.exesoft.charbakg.Model.Offspring;
 import org.exesoft.charbakg.R;
@@ -49,7 +50,17 @@ public class HomeActivity extends AppCompatActivity {
                 return false;
             }
         });
+        menu.getItem(1).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Log.d(TAG, "Logout menu item clicked");
+                Auth.logout();
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                finish();
 
+                return false;
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
 

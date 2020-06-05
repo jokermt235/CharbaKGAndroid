@@ -21,6 +21,7 @@ import org.exesoft.charbakg.Controller.LivestockController;
 import org.exesoft.charbakg.Modal.DatePicker;
 import org.exesoft.charbakg.R;
 
+import java.awt.font.TextAttribute;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -141,12 +142,13 @@ public class LivestockActivity extends AppCompatActivity {
 
 class onItemClickListener implements AdapterView.OnItemClickListener{
     private LivestockActivity activity;
+    private static String TAG = "KrsAdapterOnItemClickListener";
     public onItemClickListener(LivestockActivity activity){
         this.activity = activity;
     }
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        Log.d(TAG, "Item clicked" );
     }
 }
 

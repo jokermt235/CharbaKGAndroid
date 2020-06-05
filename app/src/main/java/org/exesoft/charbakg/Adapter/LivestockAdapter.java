@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
+
+import org.exesoft.charbakg.Callback.KrsAdapter.KrsAdapterItemClick;
 import org.exesoft.charbakg.R;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,10 +62,10 @@ public class LivestockAdapter extends BaseAdapter {
         spiciesCount.setVisibility(View.GONE);
         serial.setText(items.get(position).get("serial").toString());
         sex.setText(items.get(position).get("sex").toString());
-
+        image.setImageBitmap(icon);
+        // TO DO Migrate this to on item click listener
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
         StorageReference islandRef = storageRef.child("krs/" + items.get(position).get("uid").toString());
-        image.setImageBitmap(icon);
         islandRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
             @Override
             public void onSuccess(ListResult listResult) {
