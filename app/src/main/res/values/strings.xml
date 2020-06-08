@@ -72,4 +72,6 @@
     <string name="permission_request">Запросить доступ</string>
     <string name="permission_requested_message">Запрос на доступ успешно отправлен</string>
     <string name="permission_too_many_requested_permission">Слишком много запросов на доступ!</string>
+    <string name="ls_form_slaughter_label">Цель</string>
+    <string name="ls_form_slaughter">На убой</string>
 </resources>

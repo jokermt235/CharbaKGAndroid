@@ -26,7 +26,7 @@
             app:title="@string/addForm"
             app:titleTextColor="@android:color/white" />
         <LinearLayout android:layout_width="match_parent"
-            android:layout_height="256dip"
+            android:layout_height="196dip"
             android:orientation="vertical">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/LSFormImageConstraint"
@@ -190,18 +190,63 @@
                     android:layout_marginEnd="5dip"
                     android:text="@string/female" />
             </RadioGroup>
-        </LinearLayout>
 
-        <Button
-            android:id="@+id/LSFormSaveBtn"
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dip"
+            android:layout_marginEnd="10dip"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/LSFormLabelSlaughter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:layout_marginBottom="5dip"
+                android:text="@string/ls_form_slaughter_label"
+                android:textColor="@color/colorLabelDark"
+                android:textSize="16sp" />
+            <RadioButton
+                android:id="@+id/lsFormSlaughter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ls_form_slaughter" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LSFormSaveBtn"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
             android:layout_marginStart="10dip"
             android:layout_marginTop="20dip"
             android:layout_marginEnd="10dip"
             android:background="@color/colorPrimary"
-            android:text="@string/save"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
+            android:clickable="true"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal"
+            android:textColor="@android:color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/save"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textStyle="bold">
+            </TextView>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="@android:style/Widget.Holo.Light.ProgressBar.Small"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="10dp"
+                android:indeterminateTint="@color/ic_launcher_background"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

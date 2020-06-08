@@ -2,23 +2,24 @@ package org.exesoft.charbakg.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import org.exesoft.charbakg.Adapter.ImageSliderAdapter;
-import org.exesoft.charbakg.Controller.LivestockController;
-import org.exesoft.charbakg.Model.Livestock;
+import org.exesoft.charbakg.Callback.OnSavedResult;
+import org.exesoft.charbakg.Controller.SimpleLoader;
 import org.exesoft.charbakg.R;
 
 import java.util.Date;
@@ -28,7 +29,7 @@ import java.util.UUID;
 
 public class LsformActivity extends AppCompatActivity {
 
-    private Button saveButton;
+    private LinearLayout saveButton;
     private EditText serialNumberEdit;
     private EditText ageYear;
     private EditText ageMonth;
@@ -38,6 +39,8 @@ public class LsformActivity extends AppCompatActivity {
     private ImageSliderAdapter imageSliderAdapter;
     private ImageButton cameraBtn;
     private static  final int CAMERA_REQUEST = 1111;
+    private RadioButton slaughter;
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +72,8 @@ public class LsformActivity extends AppCompatActivity {
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
+        slaughter = findViewById(R.id.lsFormSlaughter);
+        progressBar = findViewById(R.id.progressBar);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -79,7 +84,7 @@ public class LsformActivity extends AppCompatActivity {
         }
     }
 
-    public Button getSaveButton() {
+    public LinearLayout getSaveButton() {
         return saveButton;
     }
 
@@ -101,6 +106,10 @@ public class LsformActivity extends AppCompatActivity {
         return  imageSliderAdapter;
     }
 
+    public RadioButton getSlaughter(){
+        return  slaughter;
+    }
+
     private void initToolbar(){
         appToolbar = findViewById(R.id.lsformToolbar);
         appToolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
@@ -115,9 +124,15 @@ public class LsformActivity extends AppCompatActivity {
         });
     }
 
+    public ProgressBar getProgressBar(){
+        return progressBar;
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        startActivity(new Intent(getApplicationContext(), LivestockActivity.class));
+        finish();
     }
 }
 
@@ -131,19 +146,38 @@ class OnClickSave implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
+        lsformActivity.getProgressBar().setVisibility(View.VISIBLE);
         Map<String, Object> livestock = new HashMap<>();
-        String uid = UUID.randomUUID().toString();
-        livestock.put("uid", uid);
-        livestock.put("serial",lsformActivity.getSerialNumberEdit().getText().toString());
-        String ageYear = lsformActivity.getAgeYear().getText().toString();
-        String ageMonth = lsformActivity.getAgeMonth().getText().toString();
-        livestock.put("ageYear", Integer.parseInt(ageYear.isEmpty() ? "0": ageYear));
-        livestock.put("ageMonth",Integer.parseInt(ageMonth.isEmpty() ? "0":ageMonth));
-        int sexView = lsformActivity.getSexRadioGroup().getCheckedRadioButtonId();
-        RadioButton sex = lsformActivity.findViewById(sexView);
-        livestock.put("sex",sex.getText().toString());
-        livestock.put("added",new Date().getTime());
-        LivestockController.save(lsformActivity, livestock ,lsformActivity.getImageSliderAdapter().getItems());
-        lsformActivity.finish();
+        try {
+            String uid = UUID.randomUUID().toString();
+            livestock.put("uid", uid);
+            livestock.put("serial",lsformActivity.getSerialNumberEdit().getText().toString());
+            String ageYear = lsformActivity.getAgeYear().getText().toString();
+            String ageMonth = lsformActivity.getAgeMonth().getText().toString();
+            livestock.put("ageYear", Integer.parseInt(ageYear.isEmpty() ? "0": ageYear));
+            livestock.put("ageMonth",Integer.parseInt(ageMonth.isEmpty() ? "0":ageMonth));
+            int sexView = lsformActivity.getSexRadioGroup().getCheckedRadioButtonId();
+            RadioButton sex = lsformActivity.findViewById(sexView);
+            livestock.put("sex",sex.getText().toString());
+            livestock.put("added",new Date().getTime());
+            livestock.put("slaughter", false);
+            if(lsformActivity.getSlaughter().isChecked()){
+                livestock.put("slaughter", true);
+            }
+            SimpleLoader.save("krs", livestock ,new OnSavedResult(){
+                @Override
+                public void onSave(boolean saved) {
+                    super.onSave(saved);
+                    if(saved){
+                        lsformActivity.startActivity(new Intent(lsformActivity.getApplicationContext(), LivestockActivity.class));
+                        lsformActivity.finish();
+                        lsformActivity.getProgressBar().setVisibility(View.GONE);
+                    }
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(lsformActivity.getApplicationContext(), "Поля должны быть заполнены",Toast.LENGTH_LONG).show();
+        }
     }
 }

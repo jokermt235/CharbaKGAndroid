@@ -99,6 +99,7 @@ public class LivestockActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), LsformActivity.class));
+                finish();
             }
         });
         // Init refresh Button
@@ -112,6 +113,16 @@ public class LivestockActivity extends AppCompatActivity {
         //Init progressBar
         progressBar = findViewById(R.id.krsProgressBar);
         AppToolbar.initSimpleToolbar(this, R.id.krsToolbar);
+        livestockListInt();
+    }
+
+    private void livestockListInt(){
+        livestockList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
     }
 
     @Override
