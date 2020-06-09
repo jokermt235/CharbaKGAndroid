@@ -51,6 +51,7 @@ public class LivestockAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = LayoutInflater.from(activity.getApplicationContext()).inflate(R.layout.livestock_list_item, null);
+        TextView  uid   = convertView.findViewById(R.id.livestockUid);
         TextView  serial   = convertView.findViewById(R.id.livestockSerial);
         TextView  sex = convertView.findViewById(R.id.livestockSex);
         final ImageView image = convertView.findViewById(R.id.livestockItemImage);
@@ -61,6 +62,7 @@ public class LivestockAdapter extends BaseAdapter {
         spicies.setVisibility(View.GONE);
         spiciesCount.setVisibility(View.GONE);
         serial.setText(items.get(position).get("serial").toString());
+        uid.setText(items.get(position).get("uid").toString());
         sex.setText(items.get(position).get("sex").toString());
         image.setImageBitmap(icon);
         // TO DO Migrate this to on item click listener
