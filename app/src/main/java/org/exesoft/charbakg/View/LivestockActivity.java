@@ -120,6 +120,11 @@ public class LivestockActivity extends AppCompatActivity {
         livestockList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(), LsformActivity.class);
+                TextView uid = (TextView)findViewById(R.id.livestockUid);
+                intent.putExtra("uid", uid.getText().toString());
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -159,11 +164,6 @@ class onItemClickListener implements AdapterView.OnItemClickListener{
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.d(TAG, "Item clicked" );
-        Intent intent = new Intent(activity.getApplicationContext(), LsformActivity.class);
-        TextView uid = (TextView)view.findViewById(R.id.livestockUid);
-        intent.putExtra("uid", uid.getText().toString());
-        activity.startActivity(intent);
-        activity.finish();
     }
 }
 
