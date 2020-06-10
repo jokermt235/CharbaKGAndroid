@@ -208,11 +208,25 @@
                 android:text="@string/ls_form_slaughter_label"
                 android:textColor="@color/colorLabelDark"
                 android:textSize="16sp" />
-            <RadioButton
-                android:id="@+id/lsFormSlaughter"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/ls_form_slaughter" />
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/lsFormSlaughter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dip"
+                    android:text="@string/ls_form_slaughter" />
+
+                <RadioButton
+                    android:id="@+id/lsFormSlaughterNegative"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dip"
+                    android:text="@string/cancel" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout

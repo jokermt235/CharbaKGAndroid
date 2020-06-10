@@ -15,13 +15,16 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import org.exesoft.charbakg.Adapter.ImageSliderAdapter;
 import org.exesoft.charbakg.Callback.OnSavedResult;
+import org.exesoft.charbakg.Callback.OnSimpleLoaderResult;
 import org.exesoft.charbakg.Controller.SimpleLoader;
 import org.exesoft.charbakg.R;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +43,7 @@ public class LsformActivity extends AppCompatActivity {
     private ImageButton cameraBtn;
     private static  final int CAMERA_REQUEST = 1111;
     private RadioButton slaughter;
+    private RadioButton slaughterNegative;
     private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +77,24 @@ public class LsformActivity extends AppCompatActivity {
             }
         });
         slaughter = findViewById(R.id.lsFormSlaughter);
+        slaughter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    slaughterNegative.setChecked(false);
+                }
+            }
+        });
         progressBar = findViewById(R.id.progressBar);
+        slaughterNegative = findViewById(R.id.lsFormSlaughterNegative);
+        slaughterNegative.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    slaughter.setChecked(false);
+                }
+            }
+        });
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -86,6 +107,10 @@ public class LsformActivity extends AppCompatActivity {
 
     public LinearLayout getSaveButton() {
         return saveButton;
+    }
+
+    public RadioButton getSlaughterNegative(){
+        return slaughterNegative;
     }
 
     public EditText getSerialNumberEdit() {
@@ -133,6 +158,42 @@ public class LsformActivity extends AppCompatActivity {
         super.onBackPressed();
         startActivity(new Intent(getApplicationContext(), LivestockActivity.class));
         finish();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        loadDefaults();
+    }
+
+    private void loadDefaults(){
+        if(getIntent().getStringExtra("uid") != null){
+            final String uid  = getIntent().getStringExtra("uid");
+            SimpleLoader.filter("krs", "uid", uid, new OnSimpleLoaderResult(){
+                @Override
+                public void onResult(ArrayList<Map<String, Object>> items) {
+                    super.onResult(items);
+                    if(!items.isEmpty()){
+                        Map<String, Object> livestock = items.get(0);
+                        getSerialNumberEdit().setText(livestock.get("serial").toString());
+                        getAgeYear().setText(livestock.get("ageYear").toString());
+                        getAgeMonth().setText(livestock.get("ageMonth").toString());
+                        RadioButton sex1 = findViewById(R.id.LSFromMale);
+                        RadioButton sex2 = findViewById(R.id.LSFormFemale);
+                        if(livestock.get("sex").toString().equals(sex1.getText())){
+                            getSexRadioGroup().check(sex1.getId());
+                        }else{
+                            getSexRadioGroup().check(sex2.getId());
+                        }
+                        if((boolean)livestock.get("slaughter")){
+                            getSlaughter().setChecked(true);
+                        }else{
+                            getSlaughterNegative().setChecked(true);
+                        }
+                    }
+                }
+            });
+        }
     }
 }
 

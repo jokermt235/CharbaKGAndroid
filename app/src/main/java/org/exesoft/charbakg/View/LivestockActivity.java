@@ -159,6 +159,11 @@ class onItemClickListener implements AdapterView.OnItemClickListener{
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.d(TAG, "Item clicked" );
+        Intent intent = new Intent(activity.getApplicationContext(), LsformActivity.class);
+        TextView uid = (TextView)view.findViewById(R.id.livestockUid);
+        intent.putExtra("uid", uid.getText().toString());
+        activity.startActivity(intent);
+        activity.finish();
     }
 }
 
