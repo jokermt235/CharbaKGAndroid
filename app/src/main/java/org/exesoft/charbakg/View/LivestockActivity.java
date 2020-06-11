@@ -49,7 +49,7 @@ public class LivestockActivity extends AppCompatActivity {
         setContentView(R.layout.activity_livestock);
         ImageButton addLivestockBtn =  findViewById(R.id.addKrsImageBtn);
         livestockList = findViewById(R.id.krsListView);
-        livestockList.setOnItemClickListener(new onItemClickListener(this));
+        //livestockList.setOnItemClickListener(new onItemClickListener(this));
         livestockSum = findViewById(R.id.krsSum);
         //Init dateInput EditText date picker
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
@@ -122,9 +122,11 @@ public class LivestockActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), LsformActivity.class);
                 TextView uid = (TextView)findViewById(R.id.livestockUid);
+                TextView serial = (TextView)findViewById(R.id.livestockSerial);
                 intent.putExtra("uid", uid.getText().toString());
-                startActivity(intent);
-                finish();
+                Log.d(TAG, Integer.toString(position));
+                //startActivity(intent);
+                //finish();
             }
         });
     }
