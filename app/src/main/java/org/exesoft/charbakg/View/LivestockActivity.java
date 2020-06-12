@@ -117,18 +117,18 @@ public class LivestockActivity extends AppCompatActivity {
     }
 
     private void livestockListInt(){
-        livestockList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*livestockList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), LsformActivity.class);
                 TextView uid = (TextView)findViewById(R.id.livestockUid);
                 TextView serial = (TextView)findViewById(R.id.livestockSerial);
                 intent.putExtra("uid", uid.getText().toString());
-                Log.d(TAG, Integer.toString(position));
                 //startActivity(intent);
                 //finish();
             }
-        });
+        });*/
+
     }
 
     @Override

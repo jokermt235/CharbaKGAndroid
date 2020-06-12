@@ -49,7 +49,7 @@ public class LivestockAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         convertView = LayoutInflater.from(activity.getApplicationContext()).inflate(R.layout.livestock_list_item, null);
         TextView  uid   = convertView.findViewById(R.id.livestockUid);
         TextView  serial   = convertView.findViewById(R.id.livestockSerial);
@@ -101,6 +101,12 @@ public class LivestockAdapter extends BaseAdapter {
 
             }
         });
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, (String) items.get(position).get("serial"));
+            }
+        });
         return convertView;
     }
 
@@ -108,4 +114,5 @@ public class LivestockAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return 0;
     }
+
 }

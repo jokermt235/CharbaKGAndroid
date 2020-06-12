@@ -33,7 +33,6 @@ public class ImageSliderAdapter extends FragmentStatePagerAdapter {
         return items.size();
     }
 
-
     public ArrayList<Bitmap> getItems(){
         return  items;
     }
