@@ -1,12 +1,15 @@
 package org.exesoft.charbakg.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -18,7 +21,14 @@ import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageReference;
+
 import org.exesoft.charbakg.Adapter.ImageSliderAdapter;
+import org.exesoft.charbakg.Callback.Feed.OnUpdateDocument;
 import org.exesoft.charbakg.Callback.OnSavedResult;
 import org.exesoft.charbakg.Callback.OnSimpleLoaderResult;
 import org.exesoft.charbakg.Controller.SimpleLoader;
@@ -31,7 +41,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class LsformActivity extends AppCompatActivity {
-
+    private static final String TAG = "KRSForm";
     private LinearLayout saveButton;
     private EditText serialNumberEdit;
     private EditText ageYear;
@@ -45,6 +55,7 @@ public class LsformActivity extends AppCompatActivity {
     private RadioButton slaughter;
     private RadioButton slaughterNegative;
     private ProgressBar progressBar;
+    private EditText LSFormDocRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +83,12 @@ public class LsformActivity extends AppCompatActivity {
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                try {
+                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
         slaughter = findViewById(R.id.lsFormSlaughter);
@@ -95,13 +110,18 @@ public class LsformActivity extends AppCompatActivity {
                 }
             }
         });
+        LSFormDocRef = findViewById(R.id.LSFormDocRef);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST) {
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-            imageSliderAdapter.addItem(photo);
-            imageSliderAdapter.notifyDataSetChanged();
+            try {
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                imageSliderAdapter.addItem(photo);
+                imageSliderAdapter.notifyDataSetChanged();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -149,6 +169,10 @@ public class LsformActivity extends AppCompatActivity {
         });
     }
 
+    public EditText getLSFormDocRef(){
+        return  LSFormDocRef;
+    }
+
     public ProgressBar getProgressBar(){
         return progressBar;
     }
@@ -169,6 +193,44 @@ public class LsformActivity extends AppCompatActivity {
     private void loadDefaults(){
         if(getIntent().getStringExtra("uid") != null){
             final String uid  = getIntent().getStringExtra("uid");
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+            StorageReference islandRef = storageRef.child("krs/" + uid);
+            islandRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                @Override
+                public void onSuccess(ListResult listResult) {
+                    StorageReference iRef  = null;
+                    for (StorageReference item : listResult.getItems()) {
+                        if(item != null) {
+                            iRef = item;
+                        }
+                    }
+                    if(iRef != null) {
+                        final long ONE_MEGABYTE = 1024 * 1024;
+                        iRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                            @Override
+                            public void onSuccess(byte[] bytes) {
+                                // Data for "images/island.jpg" is returns, use this as needed
+                                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                imageSliderAdapter.addItem(bmp);
+                                imageSliderAdapter.notifyDataSetChanged();
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle any errors
+                                Log.d(TAG, "On storage failure");
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
+            });
             SimpleLoader.filter("krs", "uid", uid, new OnSimpleLoaderResult(){
                 @Override
                 public void onResult(ArrayList<Map<String, Object>> items) {
@@ -180,21 +242,27 @@ public class LsformActivity extends AppCompatActivity {
                         getAgeMonth().setText(livestock.get("ageMonth").toString());
                         RadioButton sex1 = findViewById(R.id.LSFromMale);
                         RadioButton sex2 = findViewById(R.id.LSFormFemale);
+                        getLSFormDocRef().setText(livestock.get("_ref").toString());
                         if(livestock.get("sex").toString().equals(sex1.getText())){
                             getSexRadioGroup().check(sex1.getId());
                         }else{
                             getSexRadioGroup().check(sex2.getId());
                         }
-                        if((boolean)livestock.get("slaughter")){
-                            getSlaughter().setChecked(true);
-                        }else{
-                            getSlaughterNegative().setChecked(true);
+                        try {
+                            if ((boolean) livestock.get("slaughter")) {
+                                getSlaughter().setChecked(true);
+                            } else {
+                                getSlaughterNegative().setChecked(true);
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
                         }
                     }
                 }
             });
         }
     }
+
 }
 
 class OnClickSave implements View.OnClickListener{
@@ -208,7 +276,7 @@ class OnClickSave implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         lsformActivity.getProgressBar().setVisibility(View.VISIBLE);
-        Map<String, Object> livestock = new HashMap<>();
+        final Map<String, Object> livestock = new HashMap<>();
         try {
             String uid = UUID.randomUUID().toString();
             livestock.put("uid", uid);
@@ -225,17 +293,33 @@ class OnClickSave implements View.OnClickListener{
             if(lsformActivity.getSlaughter().isChecked()){
                 livestock.put("slaughter", true);
             }
-            SimpleLoader.save("krs", livestock ,new OnSavedResult(){
-                @Override
-                public void onSave(boolean saved) {
-                    super.onSave(saved);
-                    if(saved){
-                        lsformActivity.startActivity(new Intent(lsformActivity.getApplicationContext(), LivestockActivity.class));
-                        lsformActivity.finish();
-                        lsformActivity.getProgressBar().setVisibility(View.GONE);
+            if(lsformActivity.getIntent().getStringExtra("uid") != null){
+                livestock.put("uid", lsformActivity.getIntent().getStringExtra("uid"));
+                SimpleLoader.update("krs",  lsformActivity.getLSFormDocRef().getText().toString(), livestock, new OnUpdateDocument(){
+                    @Override
+                    public void updated(boolean status) {
+                        super.updated(status);
+                        if(status){
+                            lsformActivity.startActivity(new Intent(lsformActivity.getApplicationContext(), LivestockActivity.class));
+                            lsformActivity.finish();
+                            lsformActivity.getProgressBar().setVisibility(View.GONE);
+                        }
                     }
-                }
-            });
+                });
+            }else{
+                SimpleLoader.save("krs", livestock ,new OnSavedResult(){
+                    @Override
+                    public void onSave(boolean saved) {
+                        super.onSave(saved);
+                        if(saved){
+                            lsformActivity.startActivity(new Intent(lsformActivity.getApplicationContext(), LivestockActivity.class));
+                            lsformActivity.finish();
+                            lsformActivity.getProgressBar().setVisibility(View.GONE);
+                        }
+                    }
+                });
+            }
+            SimpleLoader.uploadImages("krs", lsformActivity.getImageSliderAdapter().getItems() ,(String)livestock.get("uid") );
         }catch (Exception e){
             e.printStackTrace();
             Toast.makeText(lsformActivity.getApplicationContext(), "Поля должны быть заполнены",Toast.LENGTH_LONG).show();

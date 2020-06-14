@@ -72,7 +72,14 @@
             android:layout_marginEnd="10dip"
             android:layout_marginTop="5dip"
             android:layout_marginBottom="5dip">
-
+            <EditText
+                android:id="@+id/LSFormDocRef"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/edit_text"
+                android:ems="10"
+                android:visibility="gone"
+                android:inputType="textPersonName" />
             <TextView
                 android:id="@+id/LSFormLabel"
                 android:layout_width="match_parent"

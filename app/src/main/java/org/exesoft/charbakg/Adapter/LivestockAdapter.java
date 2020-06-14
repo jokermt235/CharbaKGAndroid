@@ -1,5 +1,6 @@
 package org.exesoft.charbakg.Adapter;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -19,6 +20,8 @@ import com.google.firebase.storage.StorageReference;
 
 import org.exesoft.charbakg.Callback.KrsAdapter.KrsAdapterItemClick;
 import org.exesoft.charbakg.R;
+import org.exesoft.charbakg.View.LsformActivity;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Map;
@@ -50,64 +53,49 @@ public class LivestockAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
-        convertView = LayoutInflater.from(activity.getApplicationContext()).inflate(R.layout.livestock_list_item, null);
-        TextView  uid   = convertView.findViewById(R.id.livestockUid);
-        TextView  serial   = convertView.findViewById(R.id.livestockSerial);
-        TextView  sex = convertView.findViewById(R.id.livestockSex);
-        final ImageView image = convertView.findViewById(R.id.livestockItemImage);
-        TextView  spicies = convertView.findViewById(R.id.livestockSpicies);
-        TextView  spiciesCount = convertView.findViewById(R.id.livestockSpiciesCount);
-        TextView added  = convertView.findViewById(R.id.livestockAdded);
-        added.setText( new SimpleDateFormat("dd.MM.yyyy").format(items.get(position).get("added")));
-        spicies.setVisibility(View.GONE);
-        spiciesCount.setVisibility(View.GONE);
-        serial.setText(items.get(position).get("serial").toString());
-        uid.setText(items.get(position).get("uid").toString());
-        sex.setText(items.get(position).get("sex").toString());
-        image.setImageBitmap(icon);
-        // TO DO Migrate this to on item click listener
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-        StorageReference islandRef = storageRef.child("krs/" + items.get(position).get("uid").toString());
-        islandRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
-            @Override
-            public void onSuccess(ListResult listResult) {
-                StorageReference iRef  = null;
-                for (StorageReference item : listResult.getItems()) {
-                    if(item != null) {
-                        iRef = item;
-                    }
-                }
-                if(iRef != null) {
-                    final long ONE_MEGABYTE = 1024 * 1024;
-                    iRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                        @Override
-                        public void onSuccess(byte[] bytes) {
-                            // Data for "images/island.jpg" is returns, use this as needed
-                            Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                            image.setImageBitmap(bmp);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            // Handle any errors
-                            Log.d(TAG, "On storage failure");
-                        }
-                    });
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });
+        final ViewHolder holder;
+        if(convertView == null) {
+            convertView = LayoutInflater.from(activity.getApplicationContext()).inflate(R.layout.livestock_list_item, null);
+            holder = new ViewHolder();
+            holder.uid   = convertView.findViewById(R.id.livestockUid);
+            holder.serial   = convertView.findViewById(R.id.livestockSerial);
+            holder.sex = convertView.findViewById(R.id.livestockSex);
+            holder.image = convertView.findViewById(R.id.livestockItemImage);
+            holder.spicies = convertView.findViewById(R.id.livestockSpicies);
+            holder.spiciesCount = convertView.findViewById(R.id.livestockSpiciesCount);
+            holder.added  = convertView.findViewById(R.id.livestockAdded);
+            convertView.setTag(holder);
+        }else{
+            holder = (ViewHolder) convertView.getTag();
+        }
+        holder.added.setText( new SimpleDateFormat("dd.MM.yyyy").format(items.get(position).get("added")));
+        holder.spicies.setVisibility(View.GONE);
+        holder.spiciesCount.setVisibility(View.GONE);
+        holder.serial.setText(items.get(position).get("serial").toString());
+        holder.uid.setText(items.get(position).get("uid").toString());
+        holder.sex.setText(items.get(position).get("sex").toString());
+        holder.image.setImageBitmap(icon);
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, (String) items.get(position).get("serial"));
+                Log.d(TAG, (String) items.get(position).get("uid"));
+                Intent intent = new Intent(activity.getApplicationContext(), LsformActivity.class);
+                intent.putExtra("uid", (String) items.get(position).get("uid"));
+                activity.startActivity(intent);
+                activity.finish();
             }
         });
         return convertView;
+    }
+
+    static class ViewHolder{
+        TextView  uid ;
+        TextView  serial;
+        TextView  sex;
+        ImageView image;
+        TextView  spicies;
+        TextView  spiciesCount;
+        TextView added;
     }
 
     @Override
