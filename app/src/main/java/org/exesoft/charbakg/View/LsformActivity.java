@@ -240,28 +240,29 @@ public class LsformActivity extends AppCompatActivity {
                     for (StorageReference item : listResult.getItems()) {
                         if (item != null) {
                             iRef = item;
+                            if (iRef != null) {
+                                final long ONE_MEGABYTE = 1024 * 1024;
+                                iRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                    @Override
+                                    public void onSuccess(byte[] bytes) {
+                                        // Data for "images/island.jpg" is returns, use this as needed
+                                        Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                        imageSliderAdapter.addItem(bmp);
+                                        imageSliderAdapter.notifyDataSetChanged();
+                                        progressBar.setVisibility(View.GONE);
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception exception) {
+                                        // Handle any errors
+                                        Log.d(TAG, "On storage failure");
+                                        progressBar.setVisibility(View.GONE);
+                                    }
+                                });
+                            }
                         }
                     }
-                    if (iRef != null) {
-                        final long ONE_MEGABYTE = 1024 * 1024;
-                        iRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                            @Override
-                            public void onSuccess(byte[] bytes) {
-                                // Data for "images/island.jpg" is returns, use this as needed
-                                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                imageSliderAdapter.addItem(bmp);
-                                imageSliderAdapter.notifyDataSetChanged();
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                // Handle any errors
-                                Log.d(TAG, "On storage failure");
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        });
-                    }
+
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

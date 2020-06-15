@@ -212,7 +212,9 @@ public class SimpleLoader {
     public static void uploadImages(String collection, ArrayList<Bitmap> images, String uid){
         FirebaseStorage storage = FirebaseStorage.getInstance();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
+        StorageReference storageRef1 = FirebaseStorage.getInstance().getReference().child(collection + "/" + uid);
+        removeChilds(storageRef1);
+        Log.d(TAG, collection + "/" + uid);
         for (Bitmap bitmap:images) {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] data = baos.toByteArray();
@@ -233,5 +235,27 @@ public class SimpleLoader {
                 }
             });
         }
+    }
+
+    private static void removeChilds(StorageReference ref){
+        ref.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+            @Override
+            public void onSuccess(ListResult listResult) {
+                StorageReference iRef = null;
+                for (StorageReference item : listResult.getItems()) {
+                    if (item != null) {
+                        iRef = item;
+                        if (iRef != null) {
+                            iRef.delete();
+                        }
+                    }
+                }
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+            }
+        });
     }
 }
