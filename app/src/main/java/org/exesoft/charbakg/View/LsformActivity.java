@@ -111,6 +111,7 @@ public class LsformActivity extends AppCompatActivity {
             }
         });
         LSFormDocRef = findViewById(R.id.LSFormDocRef);
+        loadDefaults();
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -187,50 +188,12 @@ public class LsformActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-        loadDefaults();
     }
 
     private void loadDefaults(){
+        progressBar.setVisibility(View.VISIBLE);
         if(getIntent().getStringExtra("uid") != null){
             final String uid  = getIntent().getStringExtra("uid");
-            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-            StorageReference islandRef = storageRef.child("krs/" + uid);
-            islandRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
-                @Override
-                public void onSuccess(ListResult listResult) {
-                    StorageReference iRef  = null;
-                    for (StorageReference item : listResult.getItems()) {
-                        if(item != null) {
-                            iRef = item;
-                        }
-                    }
-                    if(iRef != null) {
-                        final long ONE_MEGABYTE = 1024 * 1024;
-                        iRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                            @Override
-                            public void onSuccess(byte[] bytes) {
-                                // Data for "images/island.jpg" is returns, use this as needed
-                                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                imageSliderAdapter.addItem(bmp);
-                                imageSliderAdapter.notifyDataSetChanged();
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                // Handle any errors
-                                Log.d(TAG, "On storage failure");
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        });
-                    }
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-
-                }
-            });
             SimpleLoader.filter("krs", "uid", uid, new OnSimpleLoaderResult(){
                 @Override
                 public void onResult(ArrayList<Map<String, Object>> items) {
@@ -257,13 +220,59 @@ public class LsformActivity extends AppCompatActivity {
                         }catch (Exception e){
                             e.printStackTrace();
                         }
+                        loadImages();
                     }
                 }
             });
         }
     }
 
+    private void loadImages() {
+        if (getIntent().getStringExtra("uid") != null) {
+            final String uid  = getIntent().getStringExtra("uid");
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+            StorageReference islandRef = storageRef.child("krs/" + uid);
+            islandRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                @Override
+                public void onSuccess(ListResult listResult) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    StorageReference iRef = null;
+                    for (StorageReference item : listResult.getItems()) {
+                        if (item != null) {
+                            iRef = item;
+                        }
+                    }
+                    if (iRef != null) {
+                        final long ONE_MEGABYTE = 1024 * 1024;
+                        iRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                            @Override
+                            public void onSuccess(byte[] bytes) {
+                                // Data for "images/island.jpg" is returns, use this as needed
+                                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                imageSliderAdapter.addItem(bmp);
+                                imageSliderAdapter.notifyDataSetChanged();
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle any errors
+                                Log.d(TAG, "On storage failure");
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
+        }
+    }
 }
+
 
 class OnClickSave implements View.OnClickListener{
 
@@ -300,6 +309,7 @@ class OnClickSave implements View.OnClickListener{
                     public void updated(boolean status) {
                         super.updated(status);
                         if(status){
+                            SimpleLoader.uploadImages("krs", lsformActivity.getImageSliderAdapter().getItems() ,(String)livestock.get("uid") );
                             lsformActivity.startActivity(new Intent(lsformActivity.getApplicationContext(), LivestockActivity.class));
                             lsformActivity.finish();
                             lsformActivity.getProgressBar().setVisibility(View.GONE);
@@ -312,6 +322,7 @@ class OnClickSave implements View.OnClickListener{
                     public void onSave(boolean saved) {
                         super.onSave(saved);
                         if(saved){
+                            SimpleLoader.uploadImages("krs", lsformActivity.getImageSliderAdapter().getItems() ,(String)livestock.get("uid") );
                             lsformActivity.startActivity(new Intent(lsformActivity.getApplicationContext(), LivestockActivity.class));
                             lsformActivity.finish();
                             lsformActivity.getProgressBar().setVisibility(View.GONE);
@@ -319,7 +330,7 @@ class OnClickSave implements View.OnClickListener{
                     }
                 });
             }
-            SimpleLoader.uploadImages("krs", lsformActivity.getImageSliderAdapter().getItems() ,(String)livestock.get("uid") );
+
         }catch (Exception e){
             e.printStackTrace();
             Toast.makeText(lsformActivity.getApplicationContext(), "Поля должны быть заполнены",Toast.LENGTH_LONG).show();

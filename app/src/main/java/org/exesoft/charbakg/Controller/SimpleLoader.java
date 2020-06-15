@@ -213,7 +213,6 @@ public class SimpleLoader {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] data = baos.toByteArray();
             StorageReference storageRef = storage.getReference().child(collection + "/" + uid + "/" + UUID.randomUUID().toString() + ".jpeg");
-
             UploadTask uploadTask = storageRef.putBytes(data);
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
