@@ -29,6 +29,7 @@ import org.exesoft.charbakg.Callback.OnSimpleLoaderResult;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
@@ -211,11 +212,15 @@ public class SimpleLoader {
     }
     public static void uploadImages(String collection, ArrayList<Bitmap> images, String uid){
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         StorageReference storageRef1 = FirebaseStorage.getInstance().getReference().child(collection + "/" + uid);
         removeChilds(storageRef1);
         Log.d(TAG, collection + "/" + uid);
-        for (Bitmap bitmap:images) {
+        Iterator it = images.iterator();
+        while(it.hasNext())
+        {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            Bitmap  bitmap = (Bitmap)it.next();
+            Log.d(TAG, "Start uploading");
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] data = baos.toByteArray();
             StorageReference storageRef = storage.getReference().child(collection + "/" + uid + "/" + UUID.randomUUID().toString() + ".jpeg");
@@ -230,8 +235,7 @@ public class SimpleLoader {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                    // ...
-                    Log.d(TAG, "Images saved on storage");
+                    Log.d(TAG, "Stop uploading");
                 }
             });
         }

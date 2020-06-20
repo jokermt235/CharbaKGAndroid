@@ -68,6 +68,9 @@ public class HorseFormActivity extends AppCompatActivity {
 
 class OnSaveHorse implements View.OnClickListener{
     private HorseFormActivity activity;
+    public OnSaveHorse(HorseFormActivity activity){
+        this.activity = activity;
+    }
     @Override
     public void onClick(View v) {
         Map<String,Object> horse = new HashMap<>();
@@ -92,7 +95,4 @@ class OnSaveHorse implements View.OnClickListener{
         });
     }
 
-    public OnSaveHorse(HorseFormActivity activity){
-        this.activity = activity;
-    }
 }

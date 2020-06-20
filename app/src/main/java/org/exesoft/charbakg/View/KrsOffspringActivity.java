@@ -41,6 +41,7 @@ public class KrsOffspringActivity extends AppCompatActivity {
     private KrsOffspringActivity activity;
     private ProgressBar progressBar;
     private TextView sumText;
+    private ImageButton krsOffspringRefreshBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,11 +101,23 @@ public class KrsOffspringActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.krsOffspringProgressBar);
         //Init sumText TextView
         sumText = findViewById(R.id.krsOffspringSum);
+        krsOffspringRefreshBtn = findViewById(R.id.krsOffspringRefreshBtn);
+        krsOffspringRefreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadLocal();
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d(TAG, "OnResume method");
+        loadLocal();
+    }
+
+    private void loadLocal(){
         progressBar.setVisibility(View.VISIBLE);
         sumText.setText("0");
         activity = this;
@@ -125,7 +138,6 @@ public class KrsOffspringActivity extends AppCompatActivity {
                 }
             }
         });
-        Log.d(TAG, "OnResume method");
     }
 
     @Override

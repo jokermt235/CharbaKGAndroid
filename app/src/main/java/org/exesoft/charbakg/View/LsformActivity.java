@@ -8,7 +8,9 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -34,6 +36,7 @@ import org.exesoft.charbakg.Callback.OnSimpleLoaderResult;
 import org.exesoft.charbakg.Controller.SimpleLoader;
 import org.exesoft.charbakg.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -84,8 +87,11 @@ public class LsformActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                    Intent intent = new Intent();
+                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                    intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.setType("image/*");
+                    startActivityForResult(intent, CAMERA_REQUEST);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -117,8 +123,14 @@ public class LsformActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST) {
             try {
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
-                imageSliderAdapter.addItem(photo);
+                if(data.getClipData() != null){
+                    int n = data.getClipData().getItemCount();
+                    for(int i=0;i < n;i++){
+                        imageSliderAdapter.addItem(getBitmapFromUri(data.getClipData().getItemAt(i).getUri()));
+                    }
+                }else  if(data.getData() != null){
+                    imageSliderAdapter.addItem(getBitmapFromUri(data.getData()));
+                }
                 imageSliderAdapter.notifyDataSetChanged();
             }catch (Exception e){
                 e.printStackTrace();
@@ -271,6 +283,9 @@ public class LsformActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+    private Bitmap getBitmapFromUri (Uri eUri) throws IOException {
+        return MediaStore.Images.Media.getBitmap(getContentResolver(), eUri);
     }
 }
 
