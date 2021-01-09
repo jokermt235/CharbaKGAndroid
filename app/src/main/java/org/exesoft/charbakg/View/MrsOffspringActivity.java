@@ -23,6 +23,7 @@ import org.exesoft.charbakg.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
@@ -60,7 +61,11 @@ public class MrsOffspringActivity extends AppCompatActivity {
         //Init dateFromInput EditText
         dateFromInput = findViewById(R.id.mrsOffspringDateFromInput);
         dateFromInput.setText(DateInput.getDefaultFromDate());
-        dateFrom = DateInput.getFromDateDefault();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -6);
+        dateFromInput.setText(formatter.format(cal.getTime()));
+        dateFrom = cal.getTime();
         //Init dateToInput EditText
         dateToInput = findViewById(R.id.mrsOffspringDateToInput);
         dateToInput.setText(DateInput.setDefaultToDate());

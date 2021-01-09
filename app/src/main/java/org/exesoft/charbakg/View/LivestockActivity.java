@@ -58,7 +58,7 @@ public class LivestockActivity extends AppCompatActivity {
         dateInput = findViewById(R.id.krsDateInput);
 
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MONTH, -1);
+        cal.add(Calendar.MONTH, -12);
 
         dateInput.setText(formatter.format(cal.getTime()));
         dateFrom = cal.getTime();

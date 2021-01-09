@@ -65,7 +65,7 @@ public class OffspringActivity extends AppCompatActivity {
         // Init dateFromInput EditText
         dateFromInput = findViewById(R.id.offspringDateFromInput);
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MONTH, -1);
+        cal.add(Calendar.MONTH, -12);
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         dateFromInput.setText(formatter.format(cal.getTime()));
         dateFrom = cal.getTime();

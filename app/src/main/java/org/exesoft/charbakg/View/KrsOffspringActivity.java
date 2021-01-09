@@ -22,6 +22,7 @@ import org.exesoft.charbakg.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
@@ -66,6 +67,11 @@ public class KrsOffspringActivity extends AppCompatActivity {
         dateFrom = DateInput.getFromDateDefault();
         //Init dateToInput EditText
         dateToInput = findViewById(R.id.krsOffspringDateToInput);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -6);
+        dateFromInput.setText(formatter.format(cal.getTime()));
+        dateFrom = cal.getTime();
         dateToInput.setText(DateInput.setDefaultToDate());
         //Init dateFromBtn ImageButton
         dateFromBtn = findViewById(R.id.krsOffspringDateFromBtn);

@@ -64,9 +64,11 @@ public class HorseActivity extends AppCompatActivity {
         /*
             Init dateFromInput EditText ImageButton date picker
         */
-
+        Calendar cal = Calendar.getInstance();
         dateFromInput = findViewById(R.id.horseDateInput);
-        dateFrom = DateInput.getFromDateDefault();
+        cal.add(Calendar.MONTH, -12);
+        dateFrom = cal.getTime();
+        dateFromInput.setText(formatter.format(cal.getTime()));
         dateFromInput.setText(DateInput.getFormatedDate(dateFrom));
         dateFromBtn  = findViewById(R.id.horseDateBtn);
         dateFromBtn.setOnClickListener(new View.OnClickListener() {
