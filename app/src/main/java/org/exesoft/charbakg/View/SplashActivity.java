@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import org.exesoft.charbakg.Callback.OnSimpleLoaderResult;
 import org.exesoft.charbakg.Component.Auth;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class SplashActivity extends AppCompatActivity {
+
+    private static String TAG = "SplashActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,9 @@ public class SplashActivity extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext(), PermissionActivity.class));
                             finish();
                         }
+                    }else{
+                        startActivity(new Intent(getApplicationContext(), PermissionActivity.class));
+                        finish();
                     }
 
                 }

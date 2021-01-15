@@ -48,6 +48,7 @@ public class PermissionActivity extends AppCompatActivity {
                             perm.put("name",nameInput.getText().toString());
                             Map<String,Object> farm = (Map<String,Object>)farmSelect.getSelectedItem();
                             perm.put("farm", farm.get("name"));
+                            perm.put("farm_id", farm.get("id"));
                             perm.put("farm_city", farm.get("city"));
                             perm.put("allowed",false);
                             SimpleLoader.save("permission",perm, new OnSavedResult(){
@@ -77,9 +78,9 @@ public class PermissionActivity extends AppCompatActivity {
             public void onResult(ArrayList<Map<String, Object>> items) {
                 super.onResult(items);
                 if(!items.isEmpty()){
-                    SimpleAdapter simpleAdapter = new SimpleAdapter(getApplicationContext(), items, android.R.layout.simple_list_item_2,
-                            new String[]{"name","city"},
-                            new int[]{android.R.id.text1,android.R.id.text2});
+                    SimpleAdapter simpleAdapter = new SimpleAdapter(getApplicationContext(), items, android.R.layout.simple_expandable_list_item_2,
+                            new String[]{"name","city","id"},
+                            new int[]{android.R.id.text1,android.R.id.text2, android.R.id.shareText});
                     farmSelect.setAdapter(simpleAdapter);
                 }
                 progressBar.setVisibility(View.GONE);
