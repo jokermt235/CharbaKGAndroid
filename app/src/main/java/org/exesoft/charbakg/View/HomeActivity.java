@@ -89,7 +89,9 @@ public class HomeActivity extends AppCompatActivity {
         buttonFeed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                v.getContext().startActivity(new Intent(v.getContext(), FeedActivity.class));
+                Intent intent = new Intent(v.getContext(), FeedActivity.class);
+                intent.putExtra("owner","mrs");
+                v.getContext().startActivity(intent);
                 finish();
             }
         });
@@ -175,7 +177,9 @@ public class HomeActivity extends AppCompatActivity {
         buttonFeed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                v.getContext().startActivity(new Intent(v.getContext(), FeedActivity.class));
+                Intent intent = new Intent(v.getContext(), FeedActivity.class);
+                intent.putExtra("owner","mrs");
+                v.getContext().startActivity(intent);
                 finish();
             }
         });

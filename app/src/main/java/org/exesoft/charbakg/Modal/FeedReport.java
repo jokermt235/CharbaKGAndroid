@@ -14,7 +14,10 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -96,6 +99,9 @@ public class FeedReport {
             public void onClick(View v) {
                 final Map<String,Object> feedType = (Map<String,Object>)feedTypeSelect.getSelectedItem();
 
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
                 // Update data
                 SimpleLoader.filter("feed_report","name",feedType.get("name").toString(), new OnSimpleLoaderResult(){
                     @Override
@@ -105,17 +111,20 @@ public class FeedReport {
                             for (Map<String, Object> item : items) {
                                 item.put("added",new Date().getTime());
                                 item.put("amount",Integer.parseInt(amountInput.getText().toString().isEmpty() ? "0":amountInput.getText().toString()));
-                                SimpleLoader.update("feed_report", item.get("_ref").toString(), item, new OnUpdateDocument() {
-                                    @Override
-                                    public void updated(boolean status) {
-                                        super.updated(status);
-                                        if(status){
-                                            activity.setDateTo(new Date());
-                                            activity.loadLocal();
-                                            dialog.cancel();
+                                String owner = (String)item.get("owner");
+                                if(owner.equals(activity.getIntent().getStringExtra("owner"))) {
+                                    SimpleLoader.update("feed_report", item.get("_ref").toString(), item, new OnUpdateDocument() {
+                                        @Override
+                                        public void updated(boolean status) {
+                                            super.updated(status);
+                                            if (status) {
+                                                activity.setDateTo(new Date());
+                                                activity.loadLocal();
+                                                dialog.cancel();
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                }
                             }
                         }else{
                             Map<String, Object> feed = new HashMap<>();
@@ -123,6 +132,7 @@ public class FeedReport {
                             feed.put("amount",Integer.parseInt(amountInput.getText().toString().isEmpty() ? "0":amountInput.getText().toString()));
                             feed.put("name", feedType.get("name"));
                             feed.put("unit",feedType.get("unit"));
+                            feed.put("owner",activity.getIntent().getStringExtra("owner"));
                             SimpleLoader.save("feed_report",feed, new OnSavedResult(){
                                 @Override
                                 public void onSave(boolean saved) {
