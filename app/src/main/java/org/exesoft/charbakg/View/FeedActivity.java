@@ -24,6 +24,7 @@ import org.exesoft.charbakg.R;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 public class FeedActivity extends AppCompatActivity {
@@ -122,12 +123,15 @@ public class FeedActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadLocal();
-        Log.d(TAG, "OnResume method");
+        Log.d(TAG, getIntent().getStringExtra("owner"));
     }
 
     public void loadLocal(){
         progressBar.setVisibility(View.VISIBLE);
-        SimpleLoader.filter("feed_report",dateFrom.getTime(), dateTo.getTime(), new OnSimpleLoaderResult(){
+        Map<String,Object> filter = new HashMap<>();
+        filter.put("collection","feed_report");
+        filter.put("owner", getIntent().getStringExtra("owner"));
+        SimpleLoader.filter(filter,dateFrom.getTime(), dateTo.getTime(), new OnSimpleLoaderResult(){
             @Override
             public void onResult(ArrayList<Map<String, Object>> items) {
                 Log.d(TAG, "feed_report list");

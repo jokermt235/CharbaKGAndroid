@@ -96,8 +96,13 @@ public class FeedReport {
             public void onClick(View v) {
                 final Map<String,Object> feedType = (Map<String,Object>)feedTypeSelect.getSelectedItem();
 
+                Map<String, Object> filter = new HashMap<>();
+
+                filter.put("collection", "feed_report");
+                filter.put("owner", activity.getIntent().getStringExtra("owner"));
+                filter.put("name", feedType.get("name").toString());
                 // Update data
-                SimpleLoader.filter("feed_report","name",feedType.get("name").toString(), new OnSimpleLoaderResult(){
+                SimpleLoader.filter(filter, new OnSimpleLoaderResult(){
                     @Override
                     public void onResult(ArrayList<Map<String, Object>> items) {
                         super.onResult(items);
@@ -122,6 +127,7 @@ public class FeedReport {
                             feed.put("added",new Date().getTime());
                             feed.put("amount",Integer.parseInt(amountInput.getText().toString().isEmpty() ? "0":amountInput.getText().toString()));
                             feed.put("name", feedType.get("name"));
+                            feed.put("owner", activity.getIntent().getStringExtra("owner"));
                             feed.put("unit",feedType.get("unit"));
                             SimpleLoader.save("feed_report",feed, new OnSavedResult(){
                                 @Override
